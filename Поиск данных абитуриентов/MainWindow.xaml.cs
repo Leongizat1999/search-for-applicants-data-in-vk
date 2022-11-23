@@ -1,5 +1,8 @@
-﻿using System;
+﻿
+using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using Поиск_данных_абитуриентов.vk;//строчка за внутренние библиотеки
 
@@ -45,6 +48,18 @@ namespace Поиск_данных_абитуриентов
             }
 
             
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "*.json|*.json";
+            dlg.RestoreDirectory = true;
+            if (dlg.ShowDialog() == true)
+            {
+                File.WriteAllText(dlg.FileName, txtResponse.Text);
+            }
         }
     }
 }
