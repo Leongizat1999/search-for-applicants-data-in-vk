@@ -14,8 +14,10 @@ namespace Поиск_данных_абитуриентов.vk
 
         public String photo_100 { get; set; }
 
-        
-        public override string ToString()
+        public String bdate { get; set; }
+
+
+        public override string ToString() // функция для вывода на форму
         {
             return $"{first_name} {last_name} {id}";
         }

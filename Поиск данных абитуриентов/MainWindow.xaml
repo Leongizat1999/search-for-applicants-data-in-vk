@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         x:Name="this"
         
-        Title="MainWindow" Height="450" Width="934">
+        Title="получение аудитории" Height="450" Width="934">
     <DockPanel  Margin="20">
         <Grid DockPanel.Dock="Top" Height="20">
             <Grid.ColumnDefinitions>

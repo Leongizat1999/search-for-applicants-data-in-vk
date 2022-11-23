@@ -23,7 +23,7 @@ namespace Поиск_данных_абитуриентов.vk
         private static HttpClient client = new HttpClient();
         public JavaScriptEncoder Encoder { get; private set; }
 
-        public static Task<HttpResponseMessage> VKGet(String method, Dictionary<string,string> param) 
+        public static Task<HttpResponseMessage> VKGet(String method, Dictionary<string,string> param) //обращение через access token 
         {
             var builder = new UriBuilder($"https://api.vk.com/method/{method}");
             var query = HttpUtility.ParseQueryString(builder.Query);
@@ -38,7 +38,7 @@ namespace Поиск_данных_абитуриентов.vk
             return client.GetAsync(url);
         }
 
-        public static string PrettyJson(string unPrettyJson)
+        public static string PrettyJson(string unPrettyJson)//просто выводит ответ в красивом виде 
         {
             var options = new JsonSerializerOptions()
             {
@@ -51,19 +51,20 @@ namespace Поиск_данных_абитуриентов.vk
             return JsonSerializer.Serialize(jsonElement, options);
         }
 
-        public static async Task<Response<VKDictResponse<VKItemsResponse<VKGroupMember>>>> FetchMembersInfo(String groupId)
+        public static async Task<Response<VKDictResponse<VKItemsResponse<VKGroupMember>>>> FetchMembersInfo(String groupId)//функция запроса
         {
             HttpResponseMessage response = await VKGet("groups.getMembers", new Dictionary<string, string>
             {
                 ["group_id"] = groupId,
-                ["fields"] = "photo_100",
-                ["count"] = "100",
+                ["fields"] = "photo_100,bdate", //https://dev.vk.com/method/groups.getMembers#Параметры 
+                ["count"] = "100",              // количество записей
                 ["lang"] = "ru",
-              
+                
+
 
             }
                 );
-            var content = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync();//функция получения ответа
 
             var itemsResponse = JsonSerializer.Deserialize<VKDictResponse<VKItemsResponse<VKGroupMember>>>(content);
 
