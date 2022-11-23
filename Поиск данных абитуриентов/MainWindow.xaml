@@ -1,0 +1,51 @@
+﻿<Window xmlns:views="clr-namespace:Поиск_данных_абитуриентов.views"  x:Class="Поиск_данных_абитуриентов.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Поиск_данных_абитуриентов"
+        mc:Ignorable="d"
+        x:Name="this"
+        
+        Title="MainWindow" Height="450" Width="934">
+    <DockPanel  Margin="20">
+        <Grid DockPanel.Dock="Top" Height="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="100"/>
+
+            </Grid.ColumnDefinitions>
+        
+            <TextBox x:Name="txtGroupId" Grid.Column="0" Margin="0 0 10 0" Text="jumoreski"/>
+            <Button Grid.Column="1" Click="Button_Click">Загрузить</Button> 
+        </Grid>
+        <Grid   Margin="0 10 0 0 ">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="300"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <ListView Grid.Column="0" Margin="0 0 10 0" ItemsSource="{Binding ElementName=this, Path=Members}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <views:VKGroupMemberView />
+                    </DataTemplate>
+                </ListView.ItemTemplate>   
+            </ListView>
+           
+            <Border Grid.Column="1" BorderThickness="1" BorderBrush="Silver">
+            
+            <ScrollViewer >
+                    <TextBox x:Name="txtResponse"
+                         AcceptsReturn="True" 
+                         TextWrapping="Wrap"
+                         BorderThickness="0"
+                         Padding="4"
+                         Text="{Binding ElementName=this, Path=ResponseContent}"
+                             >
+                    </TextBox>
+            </ScrollViewer>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>
