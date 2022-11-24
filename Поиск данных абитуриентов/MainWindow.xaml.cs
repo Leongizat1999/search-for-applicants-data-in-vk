@@ -1,4 +1,6 @@
 ﻿
+using Aspose.Cells;
+using Aspose.Cells.Utility;
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
@@ -40,7 +42,7 @@ namespace Поиск_данных_абитуриентов
             var result = await Utility.FetchMembersInfo(txtGroupId.Text);
             ResponseContent = Utility.PrettyJson(result.rawContent);
 
-            Members.Clear();
+            Members.Clear();// когда добавим перезагрузки для постоянных обращений убрать
             
             foreach (var m in result.response.response.items) 
             {
@@ -53,12 +55,25 @@ namespace Поиск_данных_абитуриентов
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Filter = "*.json|*.json";
-            dlg.RestoreDirectory = true;
-            if (dlg.ShowDialog() == true)
+            SaveFileDialog dlg = new SaveFileDialog// проверка на сохранение
             {
-                File.WriteAllText(dlg.FileName, txtResponse.Text);
+                Filter = "*.xlsx|*.xlsx",
+                RestoreDirectory = true
+            };
+            if (dlg.ShowDialog() == true) //трансформация json в exel
+            {
+                Workbook workbook = new Workbook();
+                Worksheet worksheet = workbook.Worksheets[0];
+
+                string jsonInput = txtResponse.Text;
+
+                JsonLayoutOptions options = new JsonLayoutOptions();
+                options.ArrayAsTable = true;
+
+                JsonUtility.ImportData(jsonInput, worksheet.Cells, 0, 0, options);
+
+                // File.WriteAllText(dlg.FileName, txtResponse.Text);
+                workbook.Save(dlg.FileName);
             }
         }
     }
